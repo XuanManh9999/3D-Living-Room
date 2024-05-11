@@ -1,0 +1,194 @@
+<script>
+            // Khởi tạo scene, camera và renderer
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(
+                80,
+                window.innerWidth / window.innerHeight, // Aspect ratio
+                0.5,
+                1000
+            );
+
+            // Thay đổi chiều rộng của căn phòng bằng cách thay đổi tỷ lệ khung hình
+            camera.aspect = 25 / 23; // newAspectRatio là tỷ lệ mong muốn
+            camera.updateProjectionMatrix(); // Cần gọi hàm này sau khi thay đổi aspect
+
+            const renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            // Đặt camera
+            camera.position.set(0, 0, 10);
+
+            // Tạo phòng
+            const roomGeometry = new THREE.BoxGeometry(9.5, 9, 9.5);
+            const roomMaterial = new THREE.MeshPhongMaterial({
+                color: 0xffc0cb, // Màu cam
+                side: THREE.BackSide,
+            });
+            const room = new THREE.Mesh(roomGeometry, roomMaterial);
+            scene.add(room);
+
+            // Tạo ánh sáng
+            const ambientLight = new THREE.AmbientLight(0xffc0cb, 0.7); // Ánh sáng môi trường
+            scene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.3); // Ánh sáng hướng
+            directionalLight.position.set(0, 1, 3).normalize();
+            scene.add(directionalLight);
+
+            // Tạo phòng khách
+            const bedroomGeometry = new THREE.BoxGeometry(9, 8, 9);
+            const bedroomMaterial = new THREE.MeshPhongMaterial({
+                color: 0xfffff, // Màu xanh dương
+                side: THREE.BackSide,
+            });
+            const bedroom = new THREE.Mesh(bedroomGeometry, bedroomMaterial);
+            bedroom.position.set(0, 0, 0);
+            scene.add(bedroom);
+
+            // Tạo ti vi
+            const windowFrameGeometry = new THREE.BoxGeometry(3, 3.5, 0.1);
+            // Màu bên trong đen
+            const windowInnerMaterial = new THREE.MeshPhongMaterial({
+                color: 0x000000, // Màu đen
+            });
+            const windowFrame2 = new THREE.Mesh(
+                windowFrameGeometry,
+                windowInnerMaterial
+            );
+            windowFrame2.position.set(0, 0.2, -4.2); // Đặt vị trí, điều chỉnh vị trí để đối diện
+            scene.add(windowFrame2);
+
+            // Tạo kệ ti vi
+            const chairGeometry = new THREE.BoxGeometry(5.5, 2.2, 1);
+            const chairMaterial = new THREE.MeshPhongMaterial({
+                color: 0x8b4513,
+            }); // Màu gỗ
+            const chair = new THREE.Mesh(chairGeometry, chairMaterial);
+            chair.position.set(0, -3.2, -4);
+            scene.add(chair);
+            // Tạo bề mặt chính của kệ tivi
+            const shelfGeometry = new THREE.BoxGeometry(0.2, 1, 0.1); // Kích thước của kệ
+            const shelfMaterial = new THREE.MeshPhongMaterial({
+                color: 0xd2b48c, // Màu gỗ
+            });
+            const shelf = new THREE.Mesh(shelfGeometry, shelfMaterial);
+            shelf.position.set(0, -1.8, -4.3); // Vị trí của kệ trong cảnh
+            scene.add(shelf);
+
+            // Tạo cửa tủ tivi
+            const tvDoorGeometry = new THREE.BoxGeometry(0.1, 2, 0.1);
+            const tvDoorMaterial = new THREE.MeshPhongMaterial({
+                color: 0xfff8dc,
+            }); // Màu vàng kem
+            const tvDoor = new THREE.Mesh(tvDoorGeometry, tvDoorMaterial);
+            tvDoor.position.set(-1.2, -3.1, -3.52); // Đặt vị trí của cửa tủ tivi
+            scene.add(tvDoor);
+
+            // Tạo cửa tủ tivi 2
+            const tv1DoorGeometry = new THREE.BoxGeometry(0.1, 2, 0.1);
+            const tv1DoorMaterial = new THREE.MeshPhongMaterial({
+                color: 0xd2b48c,
+            }); // Màu gỗ
+            const tv1Door = new THREE.Mesh(tvDoorGeometry, tvDoorMaterial);
+            tv1Door.position.set(1.2, -3.1, -3.52); // Đặt vị trí của cửa tủ tivi
+            scene.add(tv1Door);
+
+            // Tạo đường chéo cho cửa tủ tivi
+            const tvCrossGeometry = new THREE.BoxGeometry(0.1, 1.8, 0.1);
+            const tvCrossMaterial = new THREE.MeshPhongMaterial({
+                color: 0xffffff,
+            }); // Màu đen
+            const tvCross = new THREE.Mesh(tvCrossGeometry, tvCrossMaterial);
+            tvCross.position.set(-2, -3.1, -3.52); // Đặt vị trí của đường chéo
+            tvCross.rotation.z = Math.PI / 4; // Xoay đường chéo 45 độ
+            scene.add(tvCross);
+
+            // Tạo đường chéo cho cửa tủ tivi 1
+            const tvCrossGeometry1 = new THREE.BoxGeometry(0.1, 1.8, 0.1);
+            const tvCrossMaterial1 = new THREE.MeshPhongMaterial({
+                color: 0xffffff,
+            }); // Màu đen
+            const tvCross1 = new THREE.Mesh(tvCrossGeometry1, tvCrossMaterial1);
+            tvCross1.position.set(-2, -3.1, -3.52); // Đặt vị trí của đường chéo
+            tvCross1.rotation.z = -Math.PI / 4; // Xoay đường chéo 45 độ
+            scene.add(tvCross1);
+
+            // Tạo đường chéo cho cửa tủ tivi
+            const tvCrossGeometry2 = new THREE.BoxGeometry(0.1, 1.8, 0.1);
+            const tvCrossMaterial2 = new THREE.MeshPhongMaterial({
+                color: 0xffffff,
+            }); // Màu đen
+            const tvCross2 = new THREE.Mesh(tvCrossGeometry2, tvCrossMaterial2);
+            tvCross2.position.set(2, -3.1, -3.52); // Đặt vị trí của đường chéo
+            tvCross2.rotation.z = Math.PI / 4; // Xoay đường chéo 45 độ
+            scene.add(tvCross2);
+
+            // Tạo đường chéo cho cửa tủ tivi 1
+            const tvCrossGeometry3 = new THREE.BoxGeometry(0.1, 1.8, 0.1);
+            const tvCrossMaterial3 = new THREE.MeshPhongMaterial({
+                color: 0xffffff,
+            }); // Màu đen
+            const tvCross3 = new THREE.Mesh(tvCrossGeometry3, tvCrossMaterial3);
+            tvCross3.position.set(2, -3.1, -3.52); // Đặt vị trí của đường chéo
+            tvCross3.rotation.z = -Math.PI / 4; // Xoay đường chéo 45 độ
+            scene.add(tvCross3);
+
+            // loa trái
+            const speakerGeometry = new THREE.BoxGeometry(1, 5.2, 0.5);
+            const speakerMaterial = new THREE.MeshPhongMaterial({
+                color: 0x808080,
+            }); // Màu xám
+            const speaker = new THREE.Mesh(speakerGeometry, speakerMaterial);
+            speaker.position.set(-2.25, 0, -4); // Đặt vị trí của loa trái
+            scene.add(speaker);
+
+            // loa phải
+            const speaker1Geometry = new THREE.BoxGeometry(1, 5.2, 0.5);
+            const speaker1Material = new THREE.MeshPhongMaterial({
+                color: 0x808080,
+            }); // Màu xám
+            const speaker1 = new THREE.Mesh(speaker1Geometry, speaker1Material);
+            speaker1.position.set(2.25, 0, -4); // Đặt vị trí của loa phải
+            scene.add(speaker1);
+
+            // Tạo một loader để tải ảnh
+            const loader = new THREE.TextureLoader();
+
+            // Địa chỉ URL của ảnh bạn muốn treo
+            const imageUrl =
+                "https://scontent.fhan14-3.fna.fbcdn.net/v/t39.30808-6/440937130_1003463714531757_6656511798550825497_n.jpg?stp=dst-jpg_p100x100&_nc_cat=103&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeFE0pGzg-8q8EmAGGinMhNnkkrdnBWPk3OSSt2cFY-TcwK-KZTW09-7w9Bnbjj4TU-a12sZ4NM_BU3osc4r9Bon&_nc_ohc=U1OGvrz_XaoQ7kNvgFrZFx1&_nc_ht=scontent.fhan14-3.fna&oh=00_AYC9bPUomkFs7-Gr75wMyOFKmBlDIhSiYANWoT3SKM6hLw&oe=6643DCCD";
+
+            const imageUrl1 =
+                "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/440403542_1003786874499441_1012129283124025427_n.jpg?stp=dst-jpg_s261x260&_nc_cat=102&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeE-Dp_-Ye7VoSpErZBhoHGu_0d2ws_uSq__R3bCz-5Kr5aOqWm5vGAs9IUWT-WnHsDEAllIC9gLSSts779tjS71&_nc_ohc=Df7c3SMPLDgQ7kNvgHlivbs&_nc_ht=scontent.fhan14-4.fna&oh=00_AYCiDOnj9BvwKOo5tAA6HiNAMQaN7jfNBRb1LpZaLVR3Zg&oe=6643D1AE";
+
+            const imageUrl2 =
+                "https://media.loveitopcdn.com/6424/top-ung-dung-karaoke-fptshop-01.jpg";
+
+            const imageUrl3 =
+                "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/438275224_1004054287806033_3177368089676130669_n.jpg?stp=dst-jpg_p75x225&_nc_cat=102&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeGOFA7FVZnrWXuWPTSlErL-eXPwJSd6Z895c_AlJ3pnz5x59B-u-jAMjef_Le2AYUTogbDPuRCunoPVb--QiwLS&_nc_ohc=-DR0gDs0fb4Q7kNvgHJKj_7&_nc_ht=scontent.fhan14-4.fna&oh=00_AYC1pTmwsTYUuk4vc080hf205WqOaWn1wHPMNAdwQspMrw&oe=6643DAAB";
+
+            const imageUrl4 =
+                "https://scontent.fhan14-5.fna.fbcdn.net/v/t39.30808-6/438256339_1004056131139182_8754546491804890840_n.jpg?stp=dst-jpg_s261x260&_nc_cat=106&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeHP1fTrxPqPFKwkM01llsTH0G7Fm4qTdhXQbsWbipN2FbBKq4PXQ5mUFoKO_WnTdVcWWvVVk7AoHVnVwnnloiM1&_nc_ohc=f5FIim1tDoUQ7kNvgFmIjHH&_nc_ht=scontent.fhan14-5.fna&oh=00_AYBrESob8FGGdfN_bejPEY9dZfNe7PvWVGnZt5t9BYPiaw&oe=6643B869";
+            // Sử dụng loader để tải ảnh
+
+            // loa trái
+            loader.load(
+                imageUrl,
+                function (texture) {
+                    // Khi ảnh đã tải xong, tạo hình học phẳng cho bức ảnh
+                    const imageGeometry = new THREE.PlaneGeometry(1, 4.5); // Kích thước của bức ảnh, có thể điều chỉnh cho phù hợp
+
+                    // Tạo vật liệu với texture là ảnh vừa tải
+                    const imageMaterial = new THREE.MeshBasicMaterial({
+                        map: texture,
+                    });
+
+                    // Tạo mesh với hình học và vật liệu
+                    const image = new THREE.Mesh(imageGeometry, imageMaterial);
+
+                    // Điều chỉnh vị trí của bức ảnh, giả sử treo trên bức tường bên phải
+                    image.position.set(-2.25, 0.25, -3.75); // X = 2 để đặt ảnh cách xa tâm OX, Y và Z điều chỉnh tùy vào vị trí cụ thể
+
+                    // Thêm ảnh vào cảnh
+          …</script>
